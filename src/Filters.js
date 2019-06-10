@@ -8,16 +8,19 @@ const Filters = ({isGrouped, setIsGrouped, categoryNames, selectedCategory, setS
     };
 
     const changeCategory = (event) => {
-        setSelectedCategory(event.target.value)
+        setSelectedCategory(event.target.value);
+        setIsGrouped(false);
     };
 
     return (
         <div className="Filters-row">
             <select value={selectedCategory} onChange={changeCategory}>
                 <option value="All Products">All Products</option>
-                {categoryNames.map(name=> <option value={name}>{name}</option>)}
+                {categoryNames.map(name => <option value={name}>{name}</option>)}
             </select>
-            {selectedCategory === 'All Products' && <select value={isGrouped ? 'grouped' : 'nonGrouped'} onChange={changeIsGrouped}>
+            {selectedCategory === 'All Products' &&
+            <select style={{marginLeft: '10px'}} value={isGrouped ? 'grouped' : 'nonGrouped'}
+                    onChange={changeIsGrouped}>
                 <option value="nonGrouped">Non Grouped</option>
                 <option value="grouped">Grouped</option>
             </select>}

@@ -1,28 +1,27 @@
+import _ from 'lodash';
 
-const getProducts = ({products, categoryName}) => {
-    if (!categoryName || categoryName==='All Products') return products;
-    return products.filter(product => {
-        let isProductInCategory = false;
+const getCategoryToProductMap = _.memoize(products => {
+    let result = {};
+    products.forEach(product => {
         product.categories.forEach(category => {
-            if (category.name === categoryName) {
-                isProductInCategory = true;
+            const categoryName = category.name;
+            if (Object.keys(result).includes(categoryName)) {
+                result[categoryName].push(product);
+            } else {
+                result[categoryName] = [product];
             }
         });
-        return isProductInCategory;
-    })
+    });
+    return result;
+});
+
+
+const getProducts = ({products, categoryName}) => {
+    if (!categoryName || categoryName === 'All Products') return products;
+    return getCategoryToProductMap(products)[categoryName];
 };
 
-const getCategoryNames = ({products}) => {
-        const categoryNames = {};
-        products.forEach(product => {
-            product.categories.forEach(category => {
-                categoryNames[category.name] = true;
-            });
-        });
-        return Object.keys(categoryNames);
-    }
-;
-
+const getCategoryNames = ({products}) => Object.keys(getCategoryToProductMap(products));
 
 
 export {getProducts, getCategoryNames};
