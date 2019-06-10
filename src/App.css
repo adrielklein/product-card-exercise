@@ -3,7 +3,6 @@
 }
 
 .App-row {
-  display: flex;
   flex: 1;
   margin: 36px;
 }
